@@ -7,8 +7,9 @@ using TMPro;
 
 public class TurnSystemUI : MonoBehaviour
 {
-    [SerializeField] private Button endTurnBtn;
-    [SerializeField] private TextMeshProUGUI turnNumberText;
+    [SerializeField] Button endTurnBtn;
+    [SerializeField] TextMeshProUGUI turnNumberText;
+    [SerializeField] GameObject enemyTurnVisualGameObject;
 
     void Start()
     {
@@ -21,15 +22,30 @@ public class TurnSystemUI : MonoBehaviour
         TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
 
         UpdateTurnText();
+        UpdateEnemyTurnVisual();
+        UpdateEndTurnButtonVisibility();
     }
 
     void TurnSystem_OnTurnChanged(object sender, EventArgs e)
     {
         UpdateTurnText();
+        UpdateEnemyTurnVisual();
+        UpdateEndTurnButtonVisibility();
     }
 
     void UpdateTurnText()
     {
         turnNumberText.text = "TURN: " + TurnSystem.Instance.GetTurnNumber();
+    }
+
+    void UpdateEnemyTurnVisual()
+    {
+        enemyTurnVisualGameObject.SetActive(!TurnSystem.Instance.IsPlayerTurn());
+    }
+
+    void UpdateEndTurnButtonVisibility()
+    {
+        endTurnBtn.gameObject.SetActive(TurnSystem.Instance.IsPlayerTurn());
+
     }
 }
