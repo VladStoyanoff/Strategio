@@ -6,7 +6,12 @@ using UnityEngine;
 public class ShootAction : BaseAction
 {
     enum State { Aiming, Shooting, Cooloff, }
-    public event EventHandler OnShoot;
+    public event EventHandler<OnShootEventArgs> OnShoot;
+    public class OnShootEventArgs : EventArgs 
+    {
+        public Unit targetUnit;
+        public Unit shootingUnit;
+    }
 
     State state;
     int shootDistance = 7;
@@ -49,8 +54,13 @@ public class ShootAction : BaseAction
 
     void Shoot()
     {
-        OnShoot?.Invoke(this, EventArgs.Empty);
-        targetUnit.Damage();
+        OnShoot?.Invoke(this, new OnShootEventArgs
+        {
+            targetUnit = targetUnit,
+            shootingUnit = unit
+        });
+
+        targetUnit.Damage(40);
     }
 
     void NextState()
