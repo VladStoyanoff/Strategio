@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class MoveAction : BaseAction
 {
-    [Header("Setup")]
-    [SerializeField] Animator unitAnimator;
+    public event EventHandler OnStartMoving;
+    public event EventHandler OnStopMoving;
 
     [Header("Movement")]
     Vector3 targetPosition;
@@ -41,12 +41,10 @@ public class MoveAction : BaseAction
 
         if (Vector3.Distance(targetPosition, transform.position) < STOPPING_DISTANCE)
         {
-            unitAnimator.SetBool("isWalking", false);
+            OnStopMoving?.Invoke(this, EventArgs.Empty);
             ActionComplete();
             return;
         }
-
-        unitAnimator.SetBool("isWalking", true);
         transform.position += moveDirection * Time.deltaTime * moveSpeed;
     }
 
@@ -77,6 +75,7 @@ public class MoveAction : BaseAction
         ActionStart(onActionComplete);
         this.targetPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
         isActive = true;
+        OnStartMoving?.Invoke(this, EventArgs.Empty);
     }
 
     public override string GetActionName() => "Move";

@@ -6,6 +6,7 @@ using UnityEngine;
 public class ShootAction : BaseAction
 {
     enum State { Aiming, Shooting, Cooloff, }
+    public event EventHandler OnShoot;
 
     State state;
     int shootDistance = 7;
@@ -48,12 +49,13 @@ public class ShootAction : BaseAction
 
     void Shoot()
     {
+        OnShoot?.Invoke(this, EventArgs.Empty);
         targetUnit.Damage();
     }
 
     void NextState()
     {
-        switch (state) 
+        switch (state)
         {
             case State.Aiming:
                 state = State.Shooting;
@@ -91,7 +93,7 @@ public class ShootAction : BaseAction
                 if (unitGridPosition == testGridPosition) continue;
                 if (!LevelGrid.Instance.HasAnyUnitOnGridPosition(testGridPosition)) continue;
 
-                Unit  targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(testGridPosition);
+                Unit targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(testGridPosition);
 
                 if (targetUnit.IsEnemy() == unit.IsEnemy()) continue;
 
@@ -106,7 +108,7 @@ public class ShootAction : BaseAction
         ActionStart(onActionComplete);
 
         targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(gridPosition);
-        
+
         state = State.Aiming;
         stateTimer = AIMING_STATE_TIME;
 
