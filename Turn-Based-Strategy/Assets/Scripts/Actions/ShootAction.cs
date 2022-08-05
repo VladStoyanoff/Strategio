@@ -127,4 +127,5 @@ public class ShootAction : BaseAction
     }
 
     public Unit GetTargetUnit() => targetUnit;
+    public int GetShootDistance() => shootDistance;
 }

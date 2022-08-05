@@ -38,7 +38,7 @@ public class Unit : MonoBehaviour
         healthSystem.OnDead += HealthSystem_OnDead;
     }
 
-    void FixedUpdate()
+    void Update()
     {
         UpdateCheckIfUnitIsOnGrid();
     }
@@ -49,8 +49,9 @@ public class Unit : MonoBehaviour
 
         if (newGridPosition != gridPosition)
         {
-            LevelGrid.Instance.UnitMovedGridPosition(this, gridPosition, newGridPosition);
+            GridPosition oldGridPosition = gridPosition;
             gridPosition = newGridPosition;
+            LevelGrid.Instance.UnitMovedGridPosition(this, oldGridPosition, newGridPosition);
         }
     }
 
