@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PathNode : MonoBehaviour
+public class PathNode
 {
     GridPosition gridPosition;
     int gCost;
@@ -34,6 +34,14 @@ public class PathNode : MonoBehaviour
     {
         cameFromPathNode = null;
     }
+
+    public void SetCameFromPathNode(PathNode pathNode)
+    {
+        cameFromPathNode = pathNode;
+    }
+
+    public PathNode GetCameFromPathNode() => cameFromPathNode;
+    public GridPosition GetGridPosition() => gridPosition;
 
     public override string ToString() => gridPosition.ToString();
     public int GetGCost() => gCost;
