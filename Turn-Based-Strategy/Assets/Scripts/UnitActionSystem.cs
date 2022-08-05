@@ -72,26 +72,6 @@ public class UnitActionSystem : MonoBehaviour
         Instance = this;
     }
 
-    //bool TryHandleUnitSelection()
-    //{
-    //    if (Input.GetMouseButton(0))
-    //    {
-    //        if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition),
-    //                out RaycastHit raycastHit,
-    //                float.MaxValue,
-    //                unitsLayerMask))
-    //        {
-    //            if (raycastHit.transform.TryGetComponent<Unit>(out Unit unit))
-    //            {
-    //                if (unit == selectedUnit) return false;
-    //                SetSelectedUnit(unit);
-    //                return true;
-    //            }
-    //        }
-    //    }
-    //    return false;
-    //}
-
     bool TryHandleUnitSelection()
     {
         if (!Input.GetMouseButton(0) ||
