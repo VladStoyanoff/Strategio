@@ -11,8 +11,6 @@ public class Unit : MonoBehaviour
     GridPosition gridPosition;
 
     [Header("Actions")]
-    MoveAction moveAction;
-    SpinAction spinAction;
     int actionPoints = ACTION_POINTS_MAX;
     const int ACTION_POINTS_MAX = 2;
     HealthSystem healthSystem;
@@ -26,8 +24,6 @@ public class Unit : MonoBehaviour
     void Awake()
     {
         healthSystem = GetComponent<HealthSystem>();
-        moveAction = GetComponent<MoveAction>();
-        spinAction = GetComponent<SpinAction>();
         baseActionArray = GetComponents<BaseAction>();
     }
     void Start()
@@ -76,10 +72,16 @@ public class Unit : MonoBehaviour
         OnAnyUnitDead?.Invoke(this, EventArgs.Empty);
     }
 
-    public MoveAction GetMoveAction() => moveAction;
-    public SpinAction GetSpinAction() => spinAction;
+    public T GetAction<T>() where T : BaseAction
+    {
+        foreach(BaseAction baseAction in baseActionArray)
+        {
+            if (baseAction is T) return (T)baseAction;
+        } return null;
+    }
     public GridPosition GetGridPosition() => gridPosition;
     public BaseAction[] GetBaseActionArray() => baseActionArray;
+    public float GetHealthNormalized() => healthSystem.GetHealthNormalized();
     public int GetActionPoints() => actionPoints;
     public bool IsEnemy() => isEnemy;
     public bool CanSpendActionPointsToTakeAction(BaseAction baseAction) => actionPoints >= baseAction.GetActionPointsCost();
