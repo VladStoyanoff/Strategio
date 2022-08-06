@@ -13,6 +13,7 @@ public class ShootAction : BaseAction
         public Unit shootingUnit;
     }
 
+    [SerializeField] LayerMask obstaclesLayerMask;
     State state;
     int shootDistance = 7;
     float stateTimer;
@@ -111,6 +112,14 @@ public class ShootAction : BaseAction
                 Unit targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(testGridPosition);
 
                 if (targetUnit.IsEnemy() == unit.IsEnemy()) continue;
+
+                var unitWorldPosition = LevelGrid.Instance.GetWorldPosition(unitGridPosition);
+                var shootDir = (targetUnit.GetWorldPosition() - unitWorldPosition).normalized;
+                var unitShoulderHeight = 1.7f;
+                if (Physics.Raycast(unitWorldPosition + Vector3.up * unitShoulderHeight, 
+                                    shootDir, 
+                                    Vector3.Distance(unitWorldPosition, targetUnit.GetWorldPosition()),
+                                    obstaclesLayerMask)) continue;
 
                 validGridPositionList.Add(testGridPosition);
             }
