@@ -20,14 +20,14 @@ public class LevelGrid : MonoBehaviour
     {
         SetInstance();
 
-        gridSystem = new GridSystem<GridObject>(10, 10, 2, (GridSystem<GridObject> g,
+        gridSystem = new GridSystem<GridObject>(width, height, cellSize, (GridSystem<GridObject> g,
                                                             GridPosition gridPosition) => new GridObject(g, gridPosition));
         //gridSystem.CreateDebugObjects(gridDebugObjectPrefab);
     }
 
     void Start()
     {
-       // Pathfinding.Instance.Setup
+        Pathfinding.Instance.Setup(width, height, cellSize);
     }
 
     void SetInstance()
