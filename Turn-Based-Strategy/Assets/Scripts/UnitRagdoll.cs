@@ -35,7 +35,8 @@ public class UnitRagdoll : MonoBehaviour
         {
             if (child.TryGetComponent<Rigidbody>(out Rigidbody childRigidbody))
             {
-                childRigidbody.AddExplosionForce(explosionForce, explosionPosition, explosionRange);
+                Vector3 randomDir = new Vector3(Random.Range(-1f, +1f), 0, Random.Range(-1f, +1f));
+                childRigidbody.AddExplosionForce(explosionForce, explosionPosition + randomDir, explosionRange);
             }
 
             ApplyExplosionToRagdoll(child, explosionForce, explosionPosition, explosionRange);
