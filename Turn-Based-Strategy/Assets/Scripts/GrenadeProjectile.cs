@@ -39,6 +39,11 @@ public class GrenadeProjectile : MonoBehaviour
             {
                 if (collider.TryGetComponent<Unit>(out Unit targetUnit)) targetUnit.Damage(30);
             }
+
+            foreach (Collider collider in colliderArray)
+            {
+                if (collider.TryGetComponent<DestructableCrate>(out DestructableCrate destructableCrate)) destructableCrate.Damage();
+            }
             OnAnyGrenadeExploded?.Invoke(this, EventArgs.Empty);
             trailRenderer.transform.parent = null;
             Instantiate(grenadeExplodeVFXPrefab, targetPosition + Vector3.up * 1f, Quaternion.identity);
