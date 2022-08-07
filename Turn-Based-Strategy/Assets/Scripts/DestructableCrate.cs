@@ -7,6 +7,7 @@ public class DestructableCrate : MonoBehaviour
 {
 
     public static event EventHandler OnAnyDestroyed;
+    [SerializeField] Transform crateDestroyedPrefab;
     GridPosition gridPosition;
 
     void Start()
@@ -16,8 +17,24 @@ public class DestructableCrate : MonoBehaviour
 
     public void Damage()
     {
+        Transform crateDestroyedTransform = Instantiate(crateDestroyedPrefab, transform.position, transform.rotation);
+        Vector3 randomDir = new Vector3(UnityEngine.Random.Range(-1f, +1f), 0, UnityEngine.Random.Range(-1f, +1f));
+        ApplyExplosionToChildren(crateDestroyedTransform, 150, transform.position + randomDir, 10);
         Destroy(gameObject);
         OnAnyDestroyed?.Invoke(this, EventArgs.Empty);
+    }
+
+    void ApplyExplosionToChildren(Transform root, float explosionForce, Vector3 explosionPosition, float explosionRange)
+    {
+        foreach (Transform child in root)
+        {
+            if (child.TryGetComponent<Rigidbody>(out Rigidbody childRigidbody))
+            {
+                childRigidbody.AddExplosionForce(explosionForce, explosionPosition, explosionRange);
+            }
+
+            ApplyExplosionToChildren(child, explosionForce, explosionPosition, explosionRange);
+        }
     }
 
     public GridPosition GetGridPosition() => gridPosition;

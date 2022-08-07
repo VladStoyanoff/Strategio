@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 842519871704427432}
   - component: {fileID: 842519871704427433}
   - component: {fileID: 816033603183641481}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Crate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -32,7 +32,7 @@ Transform:
   m_Children:
   - {fileID: 846147816466567747}
   m_Father: {fileID: 0}
-  m_RootOrder: 25
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!65 &842519871704427433
 BoxCollider:
@@ -59,6 +59,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 21d8618b7402b704fadf69d55286dfd9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  crateDestroyedPrefab: {fileID: 842519871704427432, guid: 04ccdad62c19d5f4fbe42ae6d8a690ac,
+    type: 3}
 --- !u!1001 &842519871844888685
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -73,7 +75,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1852967516923486, guid: e1b9e21039285c042b92ea66c7f1c444, type: 3}
       propertyPath: m_Layer
-      value: 9
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4263531196441134, guid: e1b9e21039285c042b92ea66c7f1c444, type: 3}
       propertyPath: m_RootOrder
