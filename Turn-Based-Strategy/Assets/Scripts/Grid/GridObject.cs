@@ -7,6 +7,7 @@ public class GridObject
     [Header("Grid")]
     GridSystem<GridObject> gridSystem;
     GridPosition gridPosition;
+    Door door;
 
     [Header("Lists")]
     List<Unit> unitList;
@@ -46,5 +47,11 @@ public class GridObject
         if (HasAnyUnit()) return unitList[0];
         else return null;
 
+    }
+
+    public Door GetDoor() => door;
+    public void SetDoor(Door door)
+    {
+        this.door = door;
     }
 }
