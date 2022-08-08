@@ -50,7 +50,7 @@ public class UnitActionSystem : MonoBehaviour
 
     void HandleSelectedAction()
     {
-        if (!InputManager.Instance.IsMouseButtonDown()) return;
+        if (!InputManager.Instance.IsMouseButtonDownThisFrame()) return;
         GridPosition mouseGridPosition = LevelGrid.Instance.GetGridPosition(MouseWorld.GetPosition());
 
         if (!selectedAction.IsValidActionGridPosition(mouseGridPosition)) return;
@@ -74,7 +74,7 @@ public class UnitActionSystem : MonoBehaviour
 
     bool TryHandleUnitSelection()
     {
-        if (!InputManager.Instance.IsMouseButtonDown() ||
+        if (!InputManager.Instance.IsMouseButtonDownThisFrame() ||
             !Physics.Raycast(Camera.main.ScreenPointToRay(InputManager.Instance.GetMouseScreenPosition()), out RaycastHit raycastHit, float.MaxValue, unitsLayerMask) ||
             !raycastHit.transform.TryGetComponent<Unit>(out Unit unit) ||
             unit == selectedUnit ||

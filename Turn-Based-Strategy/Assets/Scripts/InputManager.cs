@@ -37,7 +37,7 @@ public class InputManager : MonoBehaviour
         Input.mousePosition;
 #endif
     }
-    public bool IsMouseButtonDown() 
+    public bool IsMouseButtonDownThisFrame() 
     {
 #if USE_NEW_INPUT_SYSTEM
         return playerInputActions.Player.Click.WasPressedThisFrame();
