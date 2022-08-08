@@ -17,19 +17,24 @@ public abstract class BaseAction : MonoBehaviour
 
     protected virtual void Awake()
     {
+        Initialization();
+    }
+
+    void Initialization()
+    {
         unit = GetComponent<Unit>();
     }
 
     public abstract string GetActionName();
     public abstract void TakeAction(GridPosition gridPositon, Action onActionComplete);
+    public abstract List<GridPosition> GetValidActionGridPositionList();
+    public abstract EnemyAIAction GetEnemyAIAction(GridPosition gridPosition);
 
     public virtual bool IsValidActionGridPosition(GridPosition gridPosition)
     {
         List<GridPosition> validGridPositionList = GetValidActionGridPositionList();
         return validGridPositionList.Contains(gridPosition);
     }
-
-    public abstract List<GridPosition> GetValidActionGridPositionList();
 
     public virtual int GetActionPointsCost() => 1;
 
@@ -48,8 +53,6 @@ public abstract class BaseAction : MonoBehaviour
 
         OnAnyActionCompleted?.Invoke(this, EventArgs.Empty);
     }
-
-    public Unit GetUnit() => unit;
 
     public EnemyAIAction GetBestEnemyAIAction()
     {
@@ -71,5 +74,5 @@ public abstract class BaseAction : MonoBehaviour
         else return null;
     }
 
-    public abstract EnemyAIAction GetEnemyAIAction(GridPosition gridPosition);
+    public Unit GetUnit() => unit;
 }

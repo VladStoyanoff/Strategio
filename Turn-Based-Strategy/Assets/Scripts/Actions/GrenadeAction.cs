@@ -5,15 +5,26 @@ using UnityEngine;
 
 public class GrenadeAction : BaseAction
 {
+    [Header("Variables")]
     int throwDistance = 7;
+
+    [Header("Prefabs")]
     [SerializeField] Transform grenadeProjectilePrefab;
 
     void Update()
     {
+        UpdateStopCondition();
+    }
+
+    void UpdateStopCondition()
+    {
         if (!isActive) return;
     }
 
-    public override string GetActionName() => "Grenade";
+    void OnGrenadeBehaviourComplete()
+    {
+        ActionComplete();
+    }
 
     public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
     {
@@ -22,6 +33,14 @@ public class GrenadeAction : BaseAction
             gridPosition = gridPosition,
             actionValue = 0,
         };
+    }
+
+    public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
+    {
+        Transform grenadeProjectileTransform = Instantiate(grenadeProjectilePrefab, unit.GetWorldPosition(), Quaternion.identity);
+        GrenadeProjectile grenadeProjectile = grenadeProjectileTransform.GetComponent<GrenadeProjectile>();
+        grenadeProjectile.Setup(gridPosition, OnGrenadeBehaviourComplete);
+        ActionStart(onActionComplete);
     }
 
     public override List<GridPosition> GetValidActionGridPositionList()
@@ -46,17 +65,6 @@ public class GrenadeAction : BaseAction
         return validGridPositionList;
     }
 
-    public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
-    {
-        Transform grenadeProjectileTransform = Instantiate(grenadeProjectilePrefab, unit.GetWorldPosition(), Quaternion.identity);
-        GrenadeProjectile grenadeProjectile = grenadeProjectileTransform.GetComponent<GrenadeProjectile>();
-        grenadeProjectile.Setup(gridPosition, OnGrenadeBehaviourComplete);
-        ActionStart(onActionComplete);
-    }
-
-    void OnGrenadeBehaviourComplete()
-    {
-        ActionComplete();
-    }
+    public override string GetActionName() => "Grenade";
 }
     
