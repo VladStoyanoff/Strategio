@@ -5,6 +5,8 @@ using UnityEngine;
 public class UnitRagdoll : MonoBehaviour
 {
     [SerializeField] Transform ragdollRootBone;
+
+    [Header("Variables&Constants")]
     int explosionForce = 300;
     int explosionRange = 10;
 

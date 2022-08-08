@@ -13,10 +13,20 @@ public class UnitSelectedVisual : MonoBehaviour
 
     void Awake()
     {
-        meshRenderer = GetComponent<MeshRenderer>();    
+        InitializationAwake();
     }
 
     void Start()
+    {
+        InitializationStart();
+    }
+
+    void InitializationAwake()
+    {
+        meshRenderer = GetComponent<MeshRenderer>();
+    }
+
+    void InitializationStart()
     {
         UnitActionSystem.Instance.OnSelectedUnitChanged += UnitActionSystem_OnSelectedUnitChanged;
         UpdateVisual();
