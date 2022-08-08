@@ -7,6 +7,11 @@ public class PathfindingUpdater : MonoBehaviour
 {
     void Start()
     {
+        InitializationStart();
+    }
+
+    void InitializationStart()
+    {
         DestructableCrate.OnAnyDestroyed += DestructableCrate_OnAnyDestroyed;
     }
 

@@ -11,21 +11,37 @@ public class EnemyAI : MonoBehaviour
         TakingTurn,
         Busy,
     }
-
     State state;
+
+    [Header("Variables&Constants")]
     float timer;
 
     void Awake()
     {
-        state = State.WaitingForEnemyTurn;
+        InitializationAwake();
     }
 
     void Start()
+    {
+        InitializationStart();
+    }
+
+    void InitializationAwake()
+    {
+        state = State.WaitingForEnemyTurn;
+    }
+
+    void InitializationStart()
     {
         TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
     }
 
     void Update()
+    {
+        UpdateCases();
+    }
+
+    void UpdateCases()
     {
         if (TurnSystem.Instance.IsPlayerTurn()) return;
         switch (state)

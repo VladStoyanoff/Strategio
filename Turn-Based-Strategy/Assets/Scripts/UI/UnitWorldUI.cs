@@ -14,11 +14,17 @@ public class UnitWorldUI : MonoBehaviour
 
     void Start()
     {
+        InitializationStart();
+    }
+
+    void InitializationStart()
+    {
         Unit.OnAnyActionPointsChanged += Unit_OnAnyActionPointsChanged;
         healthSystem.OnDamaged += HealthSystem_OnDamaged;
         UpdateActionPointsText();
         UpdateHealthBar();
     }
+
     void UpdateActionPointsText()
     {
         actionPointsText.text = unit.GetActionPoints().ToString();

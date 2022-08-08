@@ -5,6 +5,7 @@ using TMPro;
 
 public class PathfindingGridDebugObject : GridDebugObject
 {
+    [Header("Texts")]
     [SerializeField] TextMeshPro gCostText;
     [SerializeField] TextMeshPro hCostText;
     [SerializeField] TextMeshPro fCostText;

@@ -5,6 +5,11 @@ using UnityEngine;
 
 public class Unit : MonoBehaviour
 {
+    public static event EventHandler OnAnyActionPointsChanged;
+    public static event EventHandler OnAnyUnitSpawned;
+    public static event EventHandler OnAnyUnitDead;
+
+    [Header("Lists&Arrays")]
     BaseAction[] baseActionArray;
 
     [Header("Grid")]
@@ -15,18 +20,26 @@ public class Unit : MonoBehaviour
     const int ACTION_POINTS_MAX = 2;
     HealthSystem healthSystem;
 
+    [Header("Booleans")]
     [SerializeField] bool isEnemy;
 
-    public static event EventHandler OnAnyActionPointsChanged;
-    public static event EventHandler OnAnyUnitSpawned;
-    public static event EventHandler OnAnyUnitDead;
-
     void Awake()
+    {
+        InitializationAwake();
+    }
+
+    void Start()
+    {
+        InitializationStart();
+    }
+
+    void InitializationAwake()
     {
         healthSystem = GetComponent<HealthSystem>();
         baseActionArray = GetComponents<BaseAction>();
     }
-    void Start()
+
+    void InitializationStart()
     {
         gridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
 
@@ -79,12 +92,6 @@ public class Unit : MonoBehaviour
             if (baseAction is T) return (T)baseAction;
         } return null;
     }
-    public GridPosition GetGridPosition() => gridPosition;
-    public BaseAction[] GetBaseActionArray() => baseActionArray;
-    public float GetHealthNormalized() => healthSystem.GetHealthNormalized();
-    public int GetActionPoints() => actionPoints;
-    public bool IsEnemy() => isEnemy;
-    public bool CanSpendActionPointsToTakeAction(BaseAction baseAction) => actionPoints >= baseAction.GetActionPointsCost();
 
     void SpendActionPoints(int amount)
     {
@@ -108,5 +115,11 @@ public class Unit : MonoBehaviour
         healthSystem.Damage(damageAmount); 
     }
 
+    public GridPosition GetGridPosition() => gridPosition;
+    public BaseAction[] GetBaseActionArray() => baseActionArray;
+    public float GetHealthNormalized() => healthSystem.GetHealthNormalized();
+    public int GetActionPoints() => actionPoints;
+    public bool IsEnemy() => isEnemy;
+    public bool CanSpendActionPointsToTakeAction(BaseAction baseAction) => actionPoints >= baseAction.GetActionPointsCost();
     public Vector3 GetWorldPosition() => transform.position;
 }

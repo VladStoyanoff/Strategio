@@ -13,7 +13,17 @@ public class UnitAnimator : MonoBehaviour
 
     void Awake()
     {
-       if (TryGetComponent<MoveAction>(out MoveAction moveAction))
+        InitializationAwake();
+    }
+
+    void Start()
+    {
+        InitializationStart();
+    }
+
+    void InitializationAwake()
+    {
+        if (TryGetComponent<MoveAction>(out MoveAction moveAction))
         {
             moveAction.OnStartMoving += MoveAction_OnStartMoving;
             moveAction.OnStopMoving += MoveAction_OnStopMoving;
@@ -32,7 +42,7 @@ public class UnitAnimator : MonoBehaviour
         }
     }
 
-    void Start()
+    void InitializationStart()
     {
         EquipRifle();
     }

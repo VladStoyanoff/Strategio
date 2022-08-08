@@ -7,6 +7,11 @@ public class ActionBusyUI : MonoBehaviour
 
     void Start()
     {
+        InitializationStart();
+    }
+
+    void InitializationStart()
+    {
         UnitActionSystem.Instance.OnBusyChanged += UnitActionSystem_OnBusyChanged;
         Hide();
     }

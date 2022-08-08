@@ -15,10 +15,20 @@ public class UnitActionSystemUI : MonoBehaviour
 
     void Awake()
     {
-        actionButtonUIList = new List<ActionButtonUI>();
+        InitializationAwake();
     }
 
     void Start()
+    {
+        InitializationStart();
+    }
+
+    void InitializationAwake()
+    {
+        actionButtonUIList = new List<ActionButtonUI>();
+    }
+
+    void InitializationStart()
     {
         UnitActionSystem.Instance.OnSelectedUnitChanged += UnitActionSystem_OnSelectedUnitChanged;
         UnitActionSystem.Instance.OnSelectedActionChanged += UnitActionSystem_OnSelectedUnitChanged;
@@ -26,9 +36,9 @@ public class UnitActionSystemUI : MonoBehaviour
         TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
         Unit.OnAnyActionPointsChanged += Unit_OnAnyActionPointsChanged;
 
-        UpdateActionPoints();
+        ActionPoints();
         CreateUnitActionButtons();
-        UpdateSelectedVisual();
+        SelectedVisual();
     }
 
     void CreateUnitActionButtons()
@@ -56,21 +66,21 @@ public class UnitActionSystemUI : MonoBehaviour
     void UnitActionSystem_OnSelectedUnitChanged(object sender, EventArgs e)
     {
         CreateUnitActionButtons();
-        UpdateSelectedVisual();
-        UpdateActionPoints();
+        SelectedVisual();
+        ActionPoints();
     }
 
     void UnitActionSystem_OnSelectedActionChanged(object sender, EventArgs e)
     {
-        UpdateSelectedVisual();
+        SelectedVisual();
     }
 
     void UnitActionSystem_OnActionStarted(object sende, EventArgs e)
     {
-        UpdateActionPoints();
+        ActionPoints();
     }
 
-    void UpdateSelectedVisual()
+    void SelectedVisual()
     {
         foreach(ActionButtonUI actionbuttonUI in actionButtonUIList)
         {
@@ -78,7 +88,7 @@ public class UnitActionSystemUI : MonoBehaviour
         }
     }
     
-    void UpdateActionPoints()
+    void ActionPoints()
     {
         Unit selectedUnit = UnitActionSystem.Instance.GetSelectedUnit();
         actionPointsText.text = "Action Points: " + selectedUnit.GetActionPoints();
@@ -86,11 +96,11 @@ public class UnitActionSystemUI : MonoBehaviour
 
     void TurnSystem_OnTurnChanged(object sender, EventArgs e)
     {
-        UpdateActionPoints();
+        ActionPoints();
     }
 
     void Unit_OnAnyActionPointsChanged(object sender, EventArgs e)
     {
-        UpdateActionPoints();
+        ActionPoints();
     }
 }
