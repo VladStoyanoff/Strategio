@@ -12,7 +12,12 @@ public class MouseWorld : MonoBehaviour
 
     void Awake()
     {
-        instance = this;   
+        InitializationAwake();
+    }
+
+    void InitializationAwake()
+    {
+        instance = this;
     }
 
     public static Vector3 GetPosition()

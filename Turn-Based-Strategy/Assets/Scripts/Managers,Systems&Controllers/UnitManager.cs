@@ -7,6 +7,7 @@ public class UnitManager : MonoBehaviour
 {
     public static UnitManager Instance { get; private set; }
 
+    [Header("Lists&Arrays")]
     List<Unit> unitList;
     List<Unit> friendlyUnitList;
     List<Unit> enemyUnitList;
@@ -14,11 +15,22 @@ public class UnitManager : MonoBehaviour
     void Awake()
     {
         SetInstance();
+        InitializationAwake();
+    }
+
+    void Start()
+    {
+        InitializationStart();
+    }
+
+    void InitializationAwake()
+    {
         unitList = new List<Unit>();
         friendlyUnitList = new List<Unit>();
         enemyUnitList = new List<Unit>();
     }
-    void Start()
+
+    void InitializationStart()
     {
         Unit.OnAnyUnitSpawned += Unit_OnAnyUnitSpawned;
         Unit.OnAnyUnitDead += Unit_OnAnyUnitDead;

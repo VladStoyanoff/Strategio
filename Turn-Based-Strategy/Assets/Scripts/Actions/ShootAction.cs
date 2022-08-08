@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class ShootAction : BaseAction
 {
+    State state;
     enum State { Aiming, Shooting, Cooloff }
     public event EventHandler<OnShootEventArgs> OnShoot;
     public static event EventHandler<OnShootEventArgs> OnAnyShoot;
@@ -14,20 +15,30 @@ public class ShootAction : BaseAction
         public Unit shootingUnit;
     }
 
-    [SerializeField] LayerMask obstaclesLayerMask;
-    State state;
-    int shootDistance = 7;
-    float stateTimer;
-    Unit targetUnit;
-    bool canShootBullet;
+    [Header("Variables&Constants")]
     float rotateSpeed = 10f;
     const float SHOOTING_STATE_TIME = .1f;
     const float COOLOFF_STATE_TIME = .5f;
     const float AIMING_STATE_TIME = 1f;
+    float stateTimer;
+    int shootDistance = 7;
+
+    [Header("Booleans")]
+    bool canShootBullet;
+
+    [Header("Objects")]
+    [SerializeField] LayerMask obstaclesLayerMask;
+    Unit targetUnit;
+
 
     void Update()
     {
-        if (!isActive) return;
+        UpdateStates();
+    }
+
+    void UpdateStates()
+    {
+        UpdateStopCondition();
 
         stateTimer -= Time.deltaTime;
         switch (state)
@@ -52,6 +63,11 @@ public class ShootAction : BaseAction
         {
             NextState();
         }
+    }
+
+    void UpdateStopCondition()
+    {
+        if (!isActive) return;
     }
 
     void Shoot()
@@ -89,14 +105,34 @@ public class ShootAction : BaseAction
         }
     }
 
-
-
-    public override string GetActionName() => "Shoot";
-
     public override List<GridPosition> GetValidActionGridPositionList()
     {
         GridPosition unitGridPosition = unit.GetGridPosition();
         return GetValidActionGridPositionList(unitGridPosition);
+    }
+
+    public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
+    {
+        Unit targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(gridPosition);
+        targetUnit.GetHealthNormalized();
+        return new EnemyAIAction
+        {
+            gridPosition = gridPosition,
+            actionValue = 100 + Mathf.RoundToInt((1 - targetUnit.GetHealthNormalized()) * 100f),
+        };
+    }
+
+    public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
+    {
+
+        targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(gridPosition);
+
+        state = State.Aiming;
+        stateTimer = AIMING_STATE_TIME;
+
+        canShootBullet = true;
+
+        ActionStart(onActionComplete);
     }
 
     public List<GridPosition> GetValidActionGridPositionList(GridPosition unitGridPosition)
@@ -123,8 +159,8 @@ public class ShootAction : BaseAction
                 var unitWorldPosition = LevelGrid.Instance.GetWorldPosition(unitGridPosition);
                 var shootDir = (targetUnit.GetWorldPosition() - unitWorldPosition).normalized;
                 var unitShoulderHeight = 1.7f;
-                if (Physics.Raycast(unitWorldPosition + Vector3.up * unitShoulderHeight, 
-                                    shootDir, 
+                if (Physics.Raycast(unitWorldPosition + Vector3.up * unitShoulderHeight,
+                                    shootDir,
                                     Vector3.Distance(unitWorldPosition, targetUnit.GetWorldPosition()),
                                     obstaclesLayerMask)) continue;
 
@@ -134,31 +170,8 @@ public class ShootAction : BaseAction
         return validGridPositionList;
     }
 
-    public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
-    {
-
-        targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(gridPosition);
-
-        state = State.Aiming;
-        stateTimer = AIMING_STATE_TIME;
-
-        canShootBullet = true;
-
-        ActionStart(onActionComplete);
-    }
-
     public Unit GetTargetUnit() => targetUnit;
     public int GetShootDistance() => shootDistance;
     public int GetTargetCountAtPosition(GridPosition gridPosition) => GetValidActionGridPositionList(gridPosition).Count;
-    public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
-    {
-        Unit targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(gridPosition);
-        targetUnit.GetHealthNormalized();
-        return new EnemyAIAction
-        {
-            gridPosition = gridPosition,
-            actionValue = 100 + Mathf.RoundToInt((1 - targetUnit.GetHealthNormalized()) * 100f),
-    };
-    }
-
+    public override string GetActionName() => "Shoot";
 }

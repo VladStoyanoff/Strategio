@@ -19,19 +19,28 @@ public class CameraController : MonoBehaviour
 
     [Header("Zoom")]
     Vector3 followOffset;
-    int zoomAmount = 1;
     int zoomSpeed = 5;
     const int MIN_FOLLOW_Y_OFFSET = 2;
     const int MAX_FOLLOW_Y_OFFSET = 12;
 
     void Awake()
     {
-        cinemachineTransposer = cinemachineVirtualCamera.GetCinemachineComponent<CinemachineTransposer>();
+        InitializationAwake();
     }
 
     void Start()
     {
+        InitializationStart();
+    }
+
+    void InitializationStart()
+    {
         followOffset = cinemachineTransposer.m_FollowOffset;
+    }
+
+    void InitializationAwake()
+    {
+        cinemachineTransposer = cinemachineVirtualCamera.GetCinemachineComponent<CinemachineTransposer>();
     }
 
     void Update()

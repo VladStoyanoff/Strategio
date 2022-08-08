@@ -5,14 +5,23 @@ using UnityEngine;
 
 public class InteractAction : BaseAction
 {
+    [Header("Variables")]
     int interactDistance = 1;
 
     void Update()
     {
-        if (!isActive) return;
+        UpdateStopCondition();
     }
 
-    public override string GetActionName() => "Interact";
+    void OnInteractComplete()
+    {
+        ActionComplete();
+    }
+
+    void UpdateStopCondition()
+    {
+        if (!isActive) return;
+    }
 
     public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
     {
@@ -52,8 +61,5 @@ public class InteractAction : BaseAction
         ActionStart(onActionComplete);
     }
 
-    void OnInteractComplete()
-    {
-        ActionComplete();
-    }
+    public override string GetActionName() => "Interact";
 }

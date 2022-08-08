@@ -8,12 +8,22 @@ public class LookAtCamera : MonoBehaviour
 
     void Awake()
     {
-        cameraTransform = Camera.main.transform;
+        InitializationAwake();
     }
 
     void LateUpdate()
     {
+        UpdateDirection();
+    }
+
+    void UpdateDirection()
+    {
         var dirToCamera = (cameraTransform.position - transform.position).normalized;
         transform.LookAt(transform.position + dirToCamera * -1);
+    }
+
+    void InitializationAwake()
+    {
+        cameraTransform = Camera.main.transform;
     }
 }

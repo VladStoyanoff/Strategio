@@ -22,17 +22,24 @@ public class GridSystemVisual : MonoBehaviour
         Yellow
     }
 
+    [Header("Objects")]
     [SerializeField] Transform gridSystemVisualPrefab;
+
+    [Header("Arrays&Lists")]
     [SerializeField] List<GridVisualTypeMaterial> gridVisualTypeMaterialList;
     GridSystemVisualSingle[,] gridSystemVisualSingleArray;
 
     void Awake()
     {
         SetInstance();
-
     }
 
     void Start()
+    {
+        InitializationStart();
+    }
+
+    void InitializationStart()
     {
         gridSystemVisualSingleArray = new GridSystemVisualSingle[LevelGrid.Instance.GetWidth(),
                                                                  LevelGrid.Instance.GetHeight()];
@@ -41,8 +48,8 @@ public class GridSystemVisual : MonoBehaviour
             for (int z = 0; z < LevelGrid.Instance.GetHeight(); z++)
             {
                 GridPosition gridPosition = new GridPosition(x, z);
-                Transform gridSystemVisualSingleTransform = Instantiate(gridSystemVisualPrefab, 
-                                                                        LevelGrid.Instance.GetWorldPosition(gridPosition), 
+                Transform gridSystemVisualSingleTransform = Instantiate(gridSystemVisualPrefab,
+                                                                        LevelGrid.Instance.GetWorldPosition(gridPosition),
                                                                         Quaternion.identity);
                 gridSystemVisualSingleArray[x, z] = gridSystemVisualSingleTransform.GetComponent<GridSystemVisualSingle>();
             }
@@ -82,7 +89,6 @@ public class GridSystemVisual : MonoBehaviour
         ShowGridPositionList(gridPositionList, gridVisualType);
     }
 
-
     void ShowGridPositionRangeSquare(GridPosition gridPosition, int range, GridVisualType gridVisualType)
     {
         List<GridPosition> gridPositionList = new List<GridPosition>();
@@ -99,7 +105,6 @@ public class GridSystemVisual : MonoBehaviour
         }
         ShowGridPositionList(gridPositionList, gridVisualType);
     }
-
 
     public void ShowGridPositionList(List<GridPosition> gridPositionList, GridVisualType gridVisualType)
     {

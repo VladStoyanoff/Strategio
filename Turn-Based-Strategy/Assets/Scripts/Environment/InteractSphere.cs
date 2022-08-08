@@ -5,32 +5,41 @@ using UnityEngine;
 
 public class InteractSphere : MonoBehaviour, IInteractable
 {
+    Action onInteractionComplete;
 
+    [Header("Colors")]
     [SerializeField] private Material greenMaterial;
     [SerializeField] private Material redMaterial;
     [SerializeField] private MeshRenderer meshRenderer;
 
-    private GridPosition gridPosition;
-    private bool isGreen;
-    private Action onInteractionComplete;
-    private bool isActive;
-    private float timer;
+    [Header("Grid")]
+    GridPosition gridPosition;
 
-    private void Start()
+    [Header("Booleans")]
+    bool isGreen;
+    bool isActive;
+
+    [Header("Variables&Constants")]
+    float timer;
+
+    void Start()
     {
-        gridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
-        LevelGrid.Instance.SetInteractableAtGridPosition(gridPosition, this);
-
-        SetColorGreen();
+        InitializationStart();
     }
 
-    private void Update()
+    void Update()
     {
-        if (!isActive)
-        {
-            return;
-        }
+        UpdateStopCondition();
+        UpdateCheckWhetherInteractionIsComplete();
+    }
 
+    void UpdateStopCondition()
+    {
+        if (!isActive) return;
+    }
+
+    void UpdateCheckWhetherInteractionIsComplete()
+    {
         timer -= Time.deltaTime;
 
         if (timer <= 0f)
@@ -38,6 +47,14 @@ public class InteractSphere : MonoBehaviour, IInteractable
             isActive = false;
             onInteractionComplete();
         }
+    }
+
+    void InitializationStart()
+    {
+        gridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
+        LevelGrid.Instance.SetInteractableAtGridPosition(gridPosition, this);
+
+        SetColorGreen();
     }
 
     void SetColorGreen()

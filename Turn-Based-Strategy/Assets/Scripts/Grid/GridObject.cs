@@ -28,7 +28,6 @@ public class GridObject
         }
         return gridPosition.ToString() + "\n" + unitString;
     }
-
        
     public void AddUnit(Unit unit)
     {
@@ -40,18 +39,17 @@ public class GridObject
         unitList.Remove(unit);
     }
 
+    public void SetInteractable(IInteractable interactable)
+    {
+        this.interactable = interactable;
+    }
+
+    public IInteractable GetInteractable() => interactable;
     public List<Unit> GetUnitList() => unitList;
     public bool HasAnyUnit() => unitList.Count > 0;
     public Unit GetUnit()
     {
         if (HasAnyUnit()) return unitList[0];
         else return null;
-
-    }
-
-    public IInteractable GetInteractable() => interactable;
-    public void SetInteractable(IInteractable interactable)
-    {
-        this.interactable = interactable;
     }
 }

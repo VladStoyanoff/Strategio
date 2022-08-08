@@ -5,12 +5,20 @@ using UnityEngine;
 
 public class DestructableCrate : MonoBehaviour
 {
-
     public static event EventHandler OnAnyDestroyed;
+
+    [Header("Objects")]
     [SerializeField] Transform crateDestroyedPrefab;
+
+    [Header("Grid")]
     GridPosition gridPosition;
 
     void Start()
+    {
+        Initialization();
+    }
+    
+    void Initialization()
     {
         gridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
     }

@@ -12,10 +12,10 @@ public class UnitActionSystem : MonoBehaviour
     public event EventHandler OnSelectedActionChanged;
     public event EventHandler<bool> OnBusyChanged;
     public event EventHandler OnActionStarted;
-
     BaseAction selectedAction;
-    bool isBusy;
 
+    [Header("Booleans")]
+    bool isBusy;
 
     [Header("Game Objects")]
     [SerializeField] Unit selectedUnit;
@@ -30,16 +30,26 @@ public class UnitActionSystem : MonoBehaviour
 
     void Start()
     {
+        InitializationStart();
+    }
+
+    void InitializationStart()
+    {
         SetSelectedUnit(selectedUnit);
     }
 
     void Update()
     {
+
+        UpdateChecks();
+        UpdateClick();
+        UpdateSelectedAction();
+    }
+
+    void UpdateChecks()
+    {
         if (!TurnSystem.Instance.IsPlayerTurn()) return;
         if (EventSystem.current.IsPointerOverGameObject()) return;
-
-        UpdateClick();
-        HandleSelectedAction();
     }
 
     void UpdateClick()
@@ -48,7 +58,7 @@ public class UnitActionSystem : MonoBehaviour
         if (TryHandleUnitSelection()) return;
     }
 
-    void HandleSelectedAction()
+    void UpdateSelectedAction()
     {
         if (!InputManager.Instance.IsMouseButtonDownThisFrame()) return;
         GridPosition mouseGridPosition = LevelGrid.Instance.GetGridPosition(MouseWorld.GetPosition());

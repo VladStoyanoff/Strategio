@@ -9,16 +9,14 @@ public class MoveAction : BaseAction
     public event EventHandler OnStopMoving;
 
     [Header("Movement")]
-    Vector3 targetPosition;
     [SerializeField] int moveDistance = 4;
+    List<Vector3> positionList;
+    int currentPositionIndex;
 
     [Header("Constants&Variables")]
     float moveSpeed = 4f;
     float rotateSpeed = 10f;
     const float STOPPING_DISTANCE = .1f;
-
-    List<Vector3> positionList;
-    int currentPositionIndex;
 
     void Update()
     {
@@ -88,8 +86,6 @@ public class MoveAction : BaseAction
         ActionStart(onActionComplete);
     }
 
-    public override string GetActionName() => "Move";
-
     public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
     {
         int targetCountAtGridPosition = unit.GetAction<ShootAction>().GetTargetCountAtPosition(gridPosition);
@@ -100,4 +96,6 @@ public class MoveAction : BaseAction
             actionValue = targetCountAtGridPosition * 10
         };
     }
+
+    public override string GetActionName() => "Move";
 }

@@ -7,6 +7,8 @@ public class BulletProjectile : MonoBehaviour
     Vector3 targetPosition;
     [SerializeField] TrailRenderer trailRenderer;
     [SerializeField] Transform bulletHitVFXPrefab;
+
+    [Header("Variables&Constants")]
     int moveSpeed = 200;
     float distanceBeforeMoving;
 
@@ -16,6 +18,11 @@ public class BulletProjectile : MonoBehaviour
     }
 
     void Update()
+    {
+        UpdateBulletProjectile();
+    }
+
+    void UpdateBulletProjectile()
     {
         var distanceBeforeMoving = Vector3.Distance(transform.position, targetPosition);
         var moveDir = (targetPosition - transform.position).normalized;

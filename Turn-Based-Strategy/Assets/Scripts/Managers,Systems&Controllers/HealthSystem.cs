@@ -6,12 +6,18 @@ using UnityEngine;
 public class HealthSystem : MonoBehaviour
 {
     public event EventHandler OnDead;
+    public event EventHandler OnDamaged;
+
+    [Header("Variables&Constants")]
     [SerializeField] int health = 100;
     int healthMax;
 
-    public event EventHandler OnDamaged;
-
     void Awake()
+    {
+        InitializationAwake();
+    }
+
+    void InitializationAwake()
     {
         healthMax = health;
     }

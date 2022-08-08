@@ -5,9 +5,7 @@ using UnityEngine;
 
 public class SwordAction : BaseAction
 {
-
-
-
+    State state;
     enum State 
     {
         SwingingSwordBeforeHit,
@@ -17,20 +15,30 @@ public class SwordAction : BaseAction
     public event EventHandler OnSwordActionStarted;
     public event EventHandler OnSwordActionCompleted;
     public static event EventHandler OnAnySwordHit;
+
+    [Header("Variables&Constants")]
     const float AFTER_HIT_STATE_TIME = .5f;
     const float BEFORE_HIT_STATE_TIME = .7f;
-    State state;
     float rotateSpeed = 10f;
-    Unit targetUnit;
     float stateTimer;
     int swordDistance = 1;
 
-    public override string GetActionName() => "Sword";
+    [Header("Objects")]
+    Unit targetUnit;
 
     void Update()
     {
-        if (!isActive) return;
+        UpdateStopCondition();
+        UpdateCases();
+    }
 
+    void UpdateStopCondition()
+    {
+        if (!isActive) return;
+    }
+
+    void UpdateCases()
+    {
         stateTimer -= Time.deltaTime;
         switch (state)
         {
@@ -106,6 +114,8 @@ public class SwordAction : BaseAction
         OnSwordActionStarted?.Invoke(this, EventArgs.Empty);
         ActionStart(onActionComplete);
     }
+
+    public override string GetActionName() => "Sword";
 
     public int GetSwordDistance() => swordDistance;
 }

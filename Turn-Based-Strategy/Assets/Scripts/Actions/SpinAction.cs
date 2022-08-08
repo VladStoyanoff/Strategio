@@ -5,11 +5,17 @@ using UnityEngine;
 
 public class SpinAction : BaseAction
 {
+    [Header("Variables&Constants")]
     float totalSpinAmount;
 
     void Update()
     {
-        if (!isActive) return;
+        UpdateStopCondition();
+        UpdateSpin();
+    }
+
+    void UpdateSpin()
+    {
         float spinAddAmount = 360 * Time.deltaTime;
         transform.eulerAngles += new Vector3(0, spinAddAmount, 0);
         totalSpinAmount += spinAddAmount;
@@ -19,14 +25,17 @@ public class SpinAction : BaseAction
         }
     }
 
+    void UpdateStopCondition()
+    {
+        if (!isActive) return;
+    }
+
     public override void TakeAction(GridPosition gridPositon, Action onActionComplete)
     {
         totalSpinAmount = 0;
 
         ActionStart(onActionComplete);
     }
-
-    public override string GetActionName() => "Spin";
 
     public override List<GridPosition> GetValidActionGridPositionList()
     {
@@ -39,6 +48,8 @@ public class SpinAction : BaseAction
     }
 
     public override int GetActionPointsCost() => 2;
+
+    public override string GetActionName() => "Spin";
 
     public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
     {

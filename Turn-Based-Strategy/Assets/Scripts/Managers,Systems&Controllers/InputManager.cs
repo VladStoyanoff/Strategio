@@ -8,12 +8,16 @@ public class InputManager : MonoBehaviour
 {
 
     public static InputManager Instance { get; private set; }
-
     PlayerInputActions playerInputActions;
 
     void Awake()
     {
         SetInstance();
+        InitializationAwake();
+    }
+
+    void InitializationAwake()
+    {
         playerInputActions = new PlayerInputActions();
         playerInputActions.Player.Enable();
     }
@@ -37,6 +41,7 @@ public class InputManager : MonoBehaviour
         Input.mousePosition;
 #endif
     }
+
     public bool IsMouseButtonDownThisFrame() 
     {
 #if USE_NEW_INPUT_SYSTEM

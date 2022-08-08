@@ -6,18 +6,29 @@ using UnityEngine;
 public class GrenadeProjectile : MonoBehaviour
 {
     public static event EventHandler OnAnyGrenadeExploded;
+    Action onGrenadeBehaviourComplete;
+
+    [Header("Assignable")]
     [SerializeField] Transform grenadeExplodeVFXPrefab;
-    Vector3 targetPosition;
     [SerializeField] TrailRenderer trailRenderer;
     [SerializeField] AnimationCurve arcYAnimationCurve;
-    float totalDistance;
+
+    [Header("Position")]
+    Vector3 targetPosition;
     Vector3 positionXZ;
-    Action onGrenadeBehaviourComplete;
+
+    [Header("Variables&Constants")]
+    float totalDistance;
     int moveSpeed = 15;
     float reachedTargetDistance = .2f;
     float damageRadius = 4f;
 
     void Update()
+    {
+        UpdateGrenadeProjectile();
+    }
+
+    void UpdateGrenadeProjectile()
     {
         var moveDir = (targetPosition - positionXZ).normalized;
         positionXZ += moveDir * moveSpeed * Time.deltaTime;

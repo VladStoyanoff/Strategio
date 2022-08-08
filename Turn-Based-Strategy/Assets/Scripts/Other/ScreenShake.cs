@@ -12,6 +12,11 @@ public class ScreenShake : MonoBehaviour
     void Awake()
     {
         SetInstance();
+        InitializationAwake();
+    }
+    
+    void InitializationAwake()
+    {
         cinemachineImpulseSource = GetComponent<CinemachineImpulseSource>();
     }
 

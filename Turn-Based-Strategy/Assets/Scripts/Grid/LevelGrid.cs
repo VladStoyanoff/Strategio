@@ -19,13 +19,21 @@ public class LevelGrid : MonoBehaviour
     void Awake()
     {
         SetInstance();
-
-        gridSystem = new GridSystem<GridObject>(width, height, cellSize, (GridSystem<GridObject> g,
-                                                            GridPosition gridPosition) => new GridObject(g, gridPosition));
-        //gridSystem.CreateDebugObjects(gridDebugObjectPrefab);
+        InitializationAwake();
     }
 
     void Start()
+    {
+        InitializationStart();
+    }
+
+    void InitializationAwake()
+    {
+        gridSystem = new GridSystem<GridObject>(width, height, cellSize, (GridSystem<GridObject> g,
+                                                                          GridPosition gridPosition) => new GridObject(g, gridPosition));
+    }
+
+    void InitializationStart()
     {
         Pathfinding.Instance.Setup(width, height, cellSize);
     }
@@ -67,17 +75,17 @@ public class LevelGrid : MonoBehaviour
         OnAnyUnitMovedGridPosition?.Invoke(this, EventArgs.Empty);
     }
 
-    public GridPosition GetGridPosition(Vector3 worldPosition) => gridSystem.GetGridPosition(worldPosition);
-    public Vector3 GetWorldPosition(GridPosition gridPosition) => gridSystem.GetWorldPosition(gridPosition);
-    public bool IsValidGridPosition(GridPosition gridPosition) => gridSystem.IsValidGridPosition(gridPosition);
-    public int GetWidth() => gridSystem.GetWidth();
-    public int GetHeight() => gridSystem.GetHeight();
+    public void SetInteractableAtGridPosition(GridPosition gridPosition, IInteractable interactable)
+    {
+        GridObject gridObject = gridSystem.GetGridObject(gridPosition);
+        gridObject.SetInteractable(interactable);
+    }
+
     public bool HasAnyUnitOnGridPosition(GridPosition gridPosition)
     {
         GridObject gridObject = gridSystem.GetGridObject(gridPosition);
         return gridObject.HasAnyUnit();
     }
-
 
     public Unit GetUnitAtGridPosition(GridPosition gridPosition)
     {
@@ -85,15 +93,15 @@ public class LevelGrid : MonoBehaviour
         return gridObject.GetUnit();
     }
 
-    public void SetInteractableAtGridPosition(GridPosition gridPosition, IInteractable interactable)
-    {
-        GridObject gridObject = gridSystem.GetGridObject(gridPosition);
-        gridObject.SetInteractable(interactable);
-    }
-
     public IInteractable GetInteractableAtGridPosition(GridPosition gridPosition)
     {
         GridObject gridObject = gridSystem.GetGridObject(gridPosition);
         return gridObject.GetInteractable();
-    }   
+    }
+
+    public GridPosition GetGridPosition(Vector3 worldPosition) => gridSystem.GetGridPosition(worldPosition);
+    public Vector3 GetWorldPosition(GridPosition gridPosition) => gridSystem.GetWorldPosition(gridPosition);
+    public bool IsValidGridPosition(GridPosition gridPosition) => gridSystem.IsValidGridPosition(gridPosition);
+    public int GetWidth() => gridSystem.GetWidth();
+    public int GetHeight() => gridSystem.GetHeight();
 }

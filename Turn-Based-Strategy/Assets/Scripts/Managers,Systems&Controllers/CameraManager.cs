@@ -5,10 +5,16 @@ using UnityEngine;
 
 public class CameraManager : MonoBehaviour
 {
+    [Header("Objects")]
     [SerializeField] GameObject actionCameraGameObject;
 
 
     void Start()
+    {
+        InitializationStart();
+    }
+
+    void InitializationStart()
     {
         BaseAction.OnAnyActionStarted += BaseAction_OnAnyActionStarted;
         BaseAction.OnAnyActionCompleted += BaseAction_OnAnyActionCompleted;

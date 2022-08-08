@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class GridSystem<TGridObject>
 {
+    [Header("Grid")]
     int width;
     int height;
     float cellSize;
@@ -28,14 +29,6 @@ public class GridSystem<TGridObject>
         }
     }
 
-    public Vector3 GetWorldPosition(GridPosition gridPosition) => new Vector3(gridPosition.x, 0, gridPosition.z) * cellSize;
-    public TGridObject GetGridObject(GridPosition gridPosition) => gridObjectArray[gridPosition.x, gridPosition.z];
-    public GridPosition GetGridPosition(Vector3 worldPosition) => new GridPosition(Mathf.RoundToInt(worldPosition.x / cellSize), 
-                                                                                   Mathf.RoundToInt(worldPosition.z / cellSize));
-    public int GetWidth() => width;
-    public int GetHeight() => height;
-
-
     public void CreateDebugObjects(Transform debugPrefab)
     {
         for (int x = 0; x < width; x++)
@@ -50,8 +43,14 @@ public class GridSystem<TGridObject>
         }
     }
 
+    public int GetWidth() => width;
+    public int GetHeight() => height;
+    public Vector3 GetWorldPosition(GridPosition gridPosition) => new Vector3(gridPosition.x, 0, gridPosition.z) * cellSize;
+    public TGridObject GetGridObject(GridPosition gridPosition) => gridObjectArray[gridPosition.x, gridPosition.z];
     public bool IsValidGridPosition(GridPosition gridPosition) => gridPosition.x >= 0 &&
                                                                   gridPosition.z >= 0 &&
                                                                   gridPosition.x < width &&
                                                                   gridPosition.z < height;
+    public GridPosition GetGridPosition(Vector3 worldPosition) => new GridPosition(Mathf.RoundToInt(worldPosition.x / cellSize),
+                                                                                   Mathf.RoundToInt(worldPosition.z / cellSize));
 }
