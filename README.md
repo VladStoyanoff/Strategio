@@ -4,4 +4,4 @@ Strategio is a top-down strategy mini-game where you must plan your actions wise
 
 Download the game on Itch.io by clicking [here](https://vladstoyanoff.itch.io/strategio).
 
-View a demo of the mini-game by clicking here.
+View a demo of the mini-game by clicking [here](https://youtu.be/kMLI2istnmA).
