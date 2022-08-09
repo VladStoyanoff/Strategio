@@ -29,17 +29,12 @@ public class InteractSphere : MonoBehaviour, IInteractable
 
     void Update()
     {
-        UpdateStopCondition();
         UpdateCheckWhetherInteractionIsComplete();
-    }
-
-    void UpdateStopCondition()
-    {
-        if (!isActive) return;
     }
 
     void UpdateCheckWhetherInteractionIsComplete()
     {
+        if (!isActive) return;
         timer -= Time.deltaTime;
 
         if (timer <= 0f)

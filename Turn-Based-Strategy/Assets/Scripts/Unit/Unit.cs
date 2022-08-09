@@ -17,7 +17,7 @@ public class Unit : MonoBehaviour
 
     [Header("Actions")]
     int actionPoints = ACTION_POINTS_MAX;
-    const int ACTION_POINTS_MAX = 100;
+    const int ACTION_POINTS_MAX = 2;
     HealthSystem healthSystem;
 
     [Header("Booleans")]
