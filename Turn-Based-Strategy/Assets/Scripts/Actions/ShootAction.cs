@@ -38,7 +38,7 @@ public class ShootAction : BaseAction
 
     void UpdateStates()
     {
-        UpdateStopCondition();
+        if (!isActive) return;
 
         stateTimer -= Time.deltaTime;
         switch (state)
@@ -63,11 +63,6 @@ public class ShootAction : BaseAction
         {
             NextState();
         }
-    }
-
-    void UpdateStopCondition()
-    {
-        if (!isActive) return;
     }
 
     void Shoot()

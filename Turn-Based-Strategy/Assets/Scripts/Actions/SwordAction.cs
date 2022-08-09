@@ -28,17 +28,12 @@ public class SwordAction : BaseAction
 
     void Update()
     {
-        UpdateStopCondition();
         UpdateCases();
-    }
-
-    void UpdateStopCondition()
-    {
-        if (!isActive) return;
     }
 
     void UpdateCases()
     {
+        if (!isActive) return;
         stateTimer -= Time.deltaTime;
         switch (state)
         {

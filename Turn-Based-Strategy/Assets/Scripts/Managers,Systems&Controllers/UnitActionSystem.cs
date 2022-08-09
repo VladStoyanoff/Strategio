@@ -40,26 +40,15 @@ public class UnitActionSystem : MonoBehaviour
 
     void Update()
     {
-
-        UpdateChecks();
-        UpdateClick();
         UpdateSelectedAction();
-    }
-
-    void UpdateChecks()
-    {
-        if (!TurnSystem.Instance.IsPlayerTurn()) return;
-        if (EventSystem.current.IsPointerOverGameObject()) return;
-    }
-
-    void UpdateClick()
-    {
-        if (isBusy) return;
-        if (TryHandleUnitSelection()) return;
     }
 
     void UpdateSelectedAction()
     {
+        if (!TurnSystem.Instance.IsPlayerTurn()) return;
+        if (EventSystem.current.IsPointerOverGameObject()) return;
+        if (isBusy) return;
+        if (TryHandleUnitSelection()) return;
         if (!InputManager.Instance.IsMouseButtonDownThisFrame()) return;
         GridPosition mouseGridPosition = LevelGrid.Instance.GetGridPosition(MouseWorld.GetPosition());
 
