@@ -18,20 +18,10 @@ public class EnemyAI : MonoBehaviour
 
     void Awake()
     {
-        InitializationAwake();
-    }
-
-    void Start()
-    {
-        InitializationStart();
-    }
-
-    void InitializationAwake()
-    {
         state = State.WaitingForEnemyTurn;
     }
 
-    void InitializationStart()
+    void Start()
     {
         TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
     }
@@ -40,6 +30,8 @@ public class EnemyAI : MonoBehaviour
     {
         UpdateCases();
     }
+
+    // Dynamically updates cases for the Enemy AI. 
 
     void UpdateCases()
     {
@@ -52,7 +44,10 @@ public class EnemyAI : MonoBehaviour
                 timer -= Time.deltaTime;
                 if (timer <= 0)
                 {
-                    if (TryTakeEnemyAIACtion(SetStateTakingTurn)) state = State.Busy;
+                    if (TryTakeEnemyAIAction(SetStateTakingTurn))
+                    {
+                        state = State.Busy;
+                    }
                     else TurnSystem.Instance.NextTurn();
                 }
                 break;
@@ -67,6 +62,8 @@ public class EnemyAI : MonoBehaviour
         state = State.TakingTurn;
     }
 
+    // Event that signals to other scripts that this enemy is taking a turn.
+
     void TurnSystem_OnTurnChanged(object sender, EventArgs e)
     {
         if (!TurnSystem.Instance.IsPlayerTurn())
@@ -76,16 +73,20 @@ public class EnemyAI : MonoBehaviour
         }
     }
 
-    bool TryTakeEnemyAIACtion(Action onEnemyAIActionComplete)
+    // Loops through all enemies and invokes them to take turn and complete their actions
+
+    bool TryTakeEnemyAIAction(Action onEnemyAIActionComplete)
     {
         foreach (Unit enemyUnit in UnitManager.Instance.GetEnemyUnitList())
         {
-            if(TryTakeEnemyAIACtion(enemyUnit, onEnemyAIActionComplete)) return true;
+            if(TryTakeEnemyAIAction(enemyUnit, onEnemyAIActionComplete)) return true;
         }
         return false;
     }
 
-    bool TryTakeEnemyAIACtion(Unit enemyUnit, Action onEnemyAIActionComplete)
+    // Loops through a single enemy and invokes it to take turn and complete its actions
+
+    bool TryTakeEnemyAIAction(Unit enemyUnit, Action onEnemyAIActionComplete)
     {
         EnemyAIAction bestEnemyAIAction = null;
         BaseAction bestBaseAction = null;

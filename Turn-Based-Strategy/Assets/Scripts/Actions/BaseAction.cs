@@ -36,8 +36,6 @@ public abstract class BaseAction : MonoBehaviour
         return validGridPositionList.Contains(gridPosition);
     }
 
-    public virtual int GetActionPointsCost() => 1;
-
     protected void ActionStart(Action onActionComplete)
     {
         isActive = true;
@@ -75,4 +73,5 @@ public abstract class BaseAction : MonoBehaviour
     }
 
     public Unit GetUnit() => unit;
+    public virtual int GetActionPointsCost() => 1;
 }

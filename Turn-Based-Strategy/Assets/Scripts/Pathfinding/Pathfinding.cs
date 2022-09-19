@@ -164,8 +164,6 @@ public class Pathfinding : MonoBehaviour
         return lowestFCostPathNode;
     }
 
-    PathNode GetNode(int x, int z) => gridSystem.GetGridObject(new GridPosition(x, z));
-
     List<PathNode> GetNeighbourList(PathNode currentNode)
     {
         List<PathNode> neighbourList = new List<PathNode>();
@@ -246,6 +244,7 @@ public class Pathfinding : MonoBehaviour
         gridSystem.GetGridObject(gridPosition).SetIsWalkable(isWalkable);
     }
 
+    PathNode GetNode(int x, int z) => gridSystem.GetGridObject(new GridPosition(x, z));
     public bool IsWalkableGridPosition(GridPosition gridPosition) => gridSystem.GetGridObject(gridPosition).IsWalkable();
     public bool HasPath(GridPosition startGridPosition, GridPosition endGridPosition) => FindPath(startGridPosition, endGridPosition, out int pathLength) != null;
     public int GetPathLength(GridPosition startGridPosition, GridPosition endGridPosition)
